@@ -1,0 +1,138 @@
+﻿<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+
+    h2 {
+        color: #333;
+        margin-top: 20px;
+    }
+
+    ul {
+        margin: 10px 0 10px 20px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .tag {
+        background-color: #f3f4f6;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        display: inline-block;
+    }
+</style>
+<!-- Contenido principal -->
+<div class="main-content">
+    <h1>Documentación de la funcionalidad de validación de archivos</h1>
+    <p>Esta guía explica cómo integrar y utilizar la librería para validar archivos cargados por el usuario final en una aplicación.</p>
+
+    <section id="caso1">
+        <p>Este método realiza una validación de los archivos cargados por el usuario final, asegurando que cumplan con criterios específicos de tamaño, formato, contenido y seguridad. A continuación, se detalla su funcionamiento:</p>
+
+        <h2>1. Validación de Tamaño</h2>
+        <ul>
+            <li>Verifica que el tamaño del archivo sea adecuado, permitiendo un máximo de 50 MB.</li>
+        </ul>
+
+        <h2>2. Validación de Extensión y Contenido</h2>
+        <ul>
+            <li>Comprueba que el archivo coincida con el formato esperado y no se base únicamente en la extensión del archivo. Por ejemplo:</li>
+            <ul>
+                <li><strong>PDF:</strong> Valida la firma del archivo para confirmar que realmente es un PDF.</li>
+                <li><strong>CSV:</strong> Verifica que tenga un separador adecuado.</li>
+                <li><strong>TXT:</strong> Analiza los primeros caracteres del contenido.</li>
+                <li><strong>SVG:</strong> Revisa que contenga etiquetas de apertura y cierre válidas.</li>
+                <li><strong>JSON:</strong> Intenta deserializar el contenido para verificar su validez.</li>
+            </ul>
+            <li>También soporta otros formatos comunes como:</li>
+            <div class="tags">
+                <span class="tag">DOC</span>
+                <span class="tag">DOCX</span>
+                <span class="tag">XLS</span>
+                <span class="tag">XLSX</span>
+                <span class="tag">PPT</span>
+                <span class="tag">PPTX</span>
+                <span class="tag">RTF</span>
+                <span class="tag">JPG</span>
+                <span class="tag">JPEG</span>
+                <span class="tag">PNG</span>
+                <span class="tag">GIF</span>
+                <span class="tag">BMP</span>
+                <span class="tag">MP3</span>
+                <span class="tag">WAV</span>
+                <span class="tag">AAC</span>
+                <span class="tag">MP4</span>
+                <span class="tag">AVI</span>
+                <span class="tag">MOV</span>
+                <span class="tag">WMV</span>
+                <span class="tag">ZIP</span>
+                <span class="tag">RAR</span>
+                <span class="tag">7Z</span>
+                <span class="tag">XML</span>
+                <span class="tag">HTML</span>
+            </div>
+        </ul>
+
+        <h2>3. Validación de Archivos Comprimidos</h2>
+        <ul>
+            <li>En el caso de archivos comprimidos, escanea el contenido archivo por archivo utilizando Microsoft Defender para detectar posibles virus.</li>
+        </ul>
+
+        <h2>4. Validación de Entropía</h2>
+        <ul>
+            <li>
+                La entropía mide la cantidad de desorden o aleatoriedad en los datos de un archivo. Este método utiliza la entropía para identificar archivos sospechosos que podrían contener datos maliciosos o no coincidan con el formato esperado. Por ejemplo, un archivo con una entropía muy alta podría indicar un archivo comprimido o cifrado de forma inusual.
+            </li>
+        </ul>
+
+        <h2>5. Análisis de Seguridad</h2>
+        <ul>
+            <li>Si se trata de un único archivo, realiza un escaneo de virus utilizando Microsoft Defender antes de proceder.</li>
+        </ul>
+
+
+        <p>a Este es un ejemplo básico para validar un archivo con la librería:</p>
+        <pre><code class="language-csharp">
+using DSLibreria;
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        // Variables quemadas (hardcoded)
+        string extension = "JSON"; // Cambiar a otras extensiones como "PDF", "CSV", etc.
+        string rutaArchivo = "C:\ArchivosPrueba\archivo.json"; // Cambiar según tu ruta local
+
+        // Llamar al método de validación
+        var (esValido, mensaje) = await ValidacionArchivo.Validacion360ArchivoAsync(extension, rutaArchivo);
+
+        // Manejar el retorno
+        if (esValido)
+        {
+            Console.WriteLine("Validación exitosa:");
+            Console.WriteLine(mensaje);
+        }
+        else
+        {
+            Console.WriteLine("Validación fallida:");
+            Console.WriteLine(mensaje);
+        }
+    }
+}
+
+            </code></pre>
+    </section>
+
+</div>
