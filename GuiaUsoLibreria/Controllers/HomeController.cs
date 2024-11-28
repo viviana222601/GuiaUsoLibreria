@@ -33,5 +33,9 @@ namespace GuiaUsoLibreria.Controllers
         {
             return View();
         }
+        public IActionResult Criptografia()
+        {
+            return View();
+        }
     }
 }

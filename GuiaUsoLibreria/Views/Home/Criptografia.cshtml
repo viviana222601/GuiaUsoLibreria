@@ -1,0 +1,107 @@
+﻿<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+
+    h2 {
+        color: #333;
+        margin-top: 20px;
+    }
+
+    ul {
+        margin: 10px 0 10px 20px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .tag {
+        background-color: #f3f4f6;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        display: inline-block;
+    }
+</style>
+<!-- Contenido principal -->
+<div class="main-content">
+    <h1>Documentación de la funcionalidad de criptografía</h1>
+    <p>Esta guía explica cómo integrar y utilizar la librería para aborda la seguridad en la comunicación y protección de datos sensibles, incluyendo el envío y inicio de conversaciones seguras punto a punto mediante cifrado, almacenamiento seguro de claves y datos sensibles en entornos como Windows y Azure, cifrado y validación de contraseñas, así como la protección de documentos y datos mediante cifrado avanzado para su envío y almacenamiento local seguro.</p>
+
+    <section id="caso1">
+        <h2>1. Conversación punto a punto</h2>
+        <p>A continuación, se presenta un ejemplo de cómo generar un certificado autofirmado y configurar un cliente-servidor para establecer una comunicación punto a punto.</p>
+        <pre><code class="language-csharp">
+//iniciar conversacion punto a punto cliente - servidor
+//genera certificado
+Criptografia.GenerarCertificadoLocal("localhost");
+
+
+// Iniciar el servidor en un hilo separado
+Task.Run(() => StartServer());
+
+// Dar tiempo para que el servidor inicie
+Task.Delay(2000).Wait(); // Espera 2 segundos para dar tiempo a que el servidor inicie
+
+// Iniciar el cliente
+Criptografia.ConversacionPuntoPunto(); // Inicia el cliente y conversacion
+
+            </code></pre>
+    </section>
+    <section id="caso2">
+        <h2>2. Almacenamiento seguro de datos sensibles en Windows</h2>
+        <p>Almacenamiento seguro de datos sensibles o claves en el repositorio de datos de Windows.</p>
+        <pre><code class="language-csharp">
+var objCripto = new Criptografia();
+string llave = "clave";
+string secreto = "cl4v$45"; 
+
+objCripto.AlmacenamientoDatoSensibleWindows(llave, secreto);
+
+            </code></pre>
+    </section>
+    <section id="caso3">
+        <h2>3. Almacenamiento seguro de datos sensibles en Azure</h2>
+        <p>Almacenamiento seguro de datos sensibles o claves en Azure como un secreto.</p>
+        <pre><code class="language-csharp">
+var objCripto = new Criptografia();
+string keyVaultUrl = "https://<YourKeyVaultName>.vault.azure.net/"; // URL del Key Vault de Azure
+string llave = "MySecretKey"; // Nombre del secreto
+string secreto = "MiClaveSecreta"; // Valor del secreto
+objCripto.AlmacenamientoDatoSensibleAzure(keyVaultUrl, llave, secreto);
+
+            </code></pre>
+    </section>
+    <section id="caso4">
+        <h2>3. Cifrado de clave</h2>
+        <p>Cifrado de claves o datos sensibles utilizando el algoritmo de seguridad Argon2.</p>
+        <pre><code class="language-csharp">
+var objCripto = new Criptografia();
+string clave = "clavePrueba";
+objCripto.CifradoClave(clave);
+
+            </code></pre>
+    </section>
+    <section id="caso5">
+        <h2>3. Çifrado de archivos para envio</h2>
+        <p>El cifrado de archivos para envío seguro permite proteger la información confidencial antes de su transferencia. Para implementar esta solución, se especifica la ruta del archivo original, como por ejemplo: `C:\Archivos\documento.txt`, y la ruta donde se almacenará el archivo cifrado: `C:\ArchivosCifrados\documento_cifrado.enc`. Además, se utiliza una clave de cifrado segura, como `claveSegura123`, que será requerida para descifrar el archivo en destino, garantizando que solo las partes autorizadas puedan acceder a su contenido. Esta práctica asegura la integridad y confidencialidad de la información durante su envío.</p>
+        <pre><code class="language-csharp">
+var objCripto = new Criptografia();
+string filePath = "C:\\Users\\Viviana\\OneDrive\\Documentos\\pruebaCifrado\\document.txt"; // Ruta del archivo a cifrar
+string encryptedFilePath = "C:\\Users\\Viviana\\OneDrive\\Documentos\\pruebaCifrado\\document_encrypted.txt"; // Ruta del archivo cifrado
+string decryptedFilePath = "C:\\Users\\Viviana\\OneDrive\\Documentos\\pruebaCifrado\\document_decrypted.txt"; // Ruta del archivo descifrado
+
+string password = "YourSecurePassword"; // Contraseña para cifrar/descifrar
+objCripto.CifradoDocumentoEnvio(filePath, encryptedFilePath, decryptedFilePath, password)
+
+            </code></pre>
+    </section>
+</div>
