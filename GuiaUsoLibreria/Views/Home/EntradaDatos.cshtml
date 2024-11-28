@@ -1,0 +1,216 @@
+﻿@{
+    ViewData["Title"] = "Entrada de Datos";
+}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de la Librería</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+            .sidebar a {
+                padding: 10px 15px;
+                text-decoration: none;
+                font-size: 18px;
+                color: #ecf0f1;
+                display: block;
+            }
+
+                .sidebar a:hover {
+                    background-color: #34495e;
+                }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        pre {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-x: auto;
+        }
+
+        .tip {
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 10px;
+            border-left: 5px solid #3c763d;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background-color: #f2dede;
+            color: #a94442;
+            padding: 10px;
+            border-left: 5px solid #a94442;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        .code-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h3>Contenido</h3>
+            <a href="#sanitizacion">Sanitización de Entrada</a>
+            <a href="#inyeccion">Prevención de Inyección</a>
+            <a href="#validacion">Validación de Datos</a>
+            <a href="#practicas">Mejores Prácticas</a>
+        </div>
+
+        <div class="main-content">
+            <h1>Documentación de la funcionalidad de Sanitización, Inyección, Validación</h1>
+            <h3>¿Cuándo usar este código?</h3>
+            Este código debe utilizarse siempre que se maneje entrada de usuario en:
+            Formularios web (e.g., campos de texto, comentarios, etc.).
+            Procesamiento de datos externos como JSON o XML.
+            URLs y otros contextos que puedan ser manipulados por usuarios maliciosos.
+
+            <section id="sanitizacion">
+                <h2>1. Sanitización de Entrada</h2>
+                <h3>Problema</h3>
+                <p>Los datos ingresados por usuarios maliciosos pueden contener scripts o comandos peligrosos. Estos datos pueden resultar en:</p>
+                <ul>
+                    <li><strong>Inyección SQL:</strong> Permite alterar consultas a la base de datos.</li>
+                    <li><strong>XSS:</strong> Inserción de scripts maliciosos en páginas web.</li>
+                    <li><strong>Inyección de comandos:</strong> Ejecución de comandos no autorizados en el servidor.</li>
+                </ul>
+
+                <h3>Solución</h3>
+                <p>El módulo de sanitización incluye métodos específicos para limpiar entradas en varios contextos.</p>
+
+                <h3>Ejemplos</h3>
+                <div class="method-card">
+                    <div class="code-title">Sanitización de HTML y JavaScript:</div>
+                    <pre><code class="language-csharp">
+string input = "&lt;script&gt;alert('hola')&lt;/script&gt;";
+string sanitized = EntradaDatosSanitizacion.SanitizarHtmlYJavaScript(input);
+// Resultado: "alerthola"
+                    </code></pre>
+                </div>
+                <div class="method-card">
+                    <div class="code-title">Sanitización de URL:</div>
+                    <pre><code class="language-csharp">
+string url = "http://malicioso.com?param=&lt;script&gt;";
+string safeUrl = EntradaDatosSanitizacion.SanitizarUrl(url);
+// Resultado: http%3A%2F%2Fmalicioso.com%3Fparam%3D%3Cscript%3E
+                    </code></pre>
+                </div>
+            </section>
+
+            <section id="inyeccion">
+                <h2>2. Prevención de Inyecciones</h2>
+                <h3>Problema</h3>
+                <p>Inyecciones como SQL, LDAP y de comandos permiten el control no autorizado del sistema.</p>
+
+                <h3>Solución</h3>
+                <p>Implementar validaciones y sanitizaciones específicas para cada tipo de entrada sospechosa.</p>
+
+                <div class="method-card">
+                    <div class="code-title">Prevención de SQL Injection:</div>
+                    <pre><code class="language-csharp">
+string sqlInput = "'; DROP TABLE Users; --";
+string safeSql = EntradaDatosInyeccion.SanitizeSql(sqlInput);
+// Resultado: "''"
+                    </code></pre>
+                </div>
+            </section>
+
+            <section id="validacion">
+                <h2>3. Validación de Datos</h2>
+                <h3>Problema</h3>
+                <p>La entrada incorrecta puede causar errores en el sistema o inconsistencias en los datos.</p>
+                <h3>Solución</h3>
+                <p>Validar según reglas predefinidas para cada tipo de dato.</p>
+
+
+                <div class="method-card">
+                    <h3 class="method-title"> Validación de datos personales</h3>
+                    <pre class="language-csharp"><code class="language-bash">
+public class Persona
+{
+public string Nombre { get; set; }
+public int Edad { get; set; }
+public string Email { get; set; }
+}
+
+// Crear y usar validador
+var validadorNombre = new ValidadorNombrePersona();
+var resultadoNombre = validadorNombre.Validate("Juan Pérez");
+
+var validadorEdad = new ValidadorEdadPersona();
+var resultadoEdad = validadorEdad.Validate(25);
+
+// Mostrar resultados
+string mensajeNombre = EntradaDatosValidacion.MostrarResultado(resultadoNombre, "Juan Pérez");
+string mensajeEdad = EntradaDatosValidacion.MostrarResultado(resultadoEdad, "25");</code></pre>
+
+                    <div class="method-card">
+                        <h3 class="method-title">Validadores Genéricos</h3>
+                        <pre class="language-csharp"><code>
+// Validación de texto
+bool esValido = ValidadorTexto.EsTextoValido("Ejemplo", 50);
+
+// Validación de números
+bool numeroValido = ValidadorNumeroEntero.EsNumeroEnteroValido(25, 0, 100);
+bool decimalValido = ValidadorNumeroDecimal.EsNumeroDecimalValido(25.5m, 0m, 100m);
+
+// Validación alfanumérica
+bool alfanumericoValido = ValidadorAlfanumerico.EsAlfanumericoValido("ABC123", 10);
+</code></pre>
+                    </div>
+            </section>
+
+            <section id="practicas">
+                <h2>5. Mejores Prácticas</h2>
+                <ul>
+                    <li><strong>Capas de Protección:</strong> No dependas de una sola solución.</li>
+                    <li><strong>Logs:</strong> Monitoriza ataques e intenta rastrear patrones.</li>
+                    <li><strong>Validación Contextual:</strong> Aplica validaciones distintas según el uso de los datos.</li>
+                </ul>
+            </section>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+    </div>
+</body>
+
+</html>
