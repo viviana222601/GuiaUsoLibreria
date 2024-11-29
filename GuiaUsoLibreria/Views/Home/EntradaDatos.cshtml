@@ -123,7 +123,10 @@ string input = "&lt;script&gt;alert('hola')&lt;/script&gt;";
 string sanitized = EntradaDatosSanitizacion.SanitizarHtmlYJavaScript(input);
 // Resultado: "alerthola"
                     </code></pre>
+                    
+
                 </div>
+                <br />
                 <div class="method-card">
                     <div class="code-title">Sanitización de URL:</div>
                     <pre><code class="language-csharp">
@@ -131,28 +134,51 @@ string url = "http://malicioso.com?param=&lt;script&gt;";
 string safeUrl = EntradaDatosSanitizacion.SanitizarUrl(url);
 // Resultado: http%3A%2F%2Fmalicioso.com%3Fparam%3D%3Cscript%3E
                     </code></pre>
+
+                </div>
+
+              
+
+
+<div class="method-card">
+    <h3 class="method-title">Sanitización personalizada de HTML</h3>
+    <pre class="language-csharp">
+        <code class="language-csharp">
+string html = "&lt;img src='imagen.jpg' onclick='alert()' style='color:red'/>";
+string safeHtml = EntradaDatosSanitizacion.CustomizeSanitizer(html);
+// Resultado: &lt;img src="imagen.jpg" alt="" />
+        </code>
+    </pre>
+                    
+</div>
+                <div class="method-card">
+                    <h3 class="method-title">Sanitización de XML</h3>
+                    <pre class="language-csharp">
+                    <code class="language-csharp">
+string xmlInput = "&lt;script>alert('XSS Attack!');</script>";
+string salidaSanitizadaXml = EntradaDatosSanitizacion.SanitizarXml(xmlInput);
+// Resultado: 	&lt;script&gt;alert(&apos;XSS Attack!&apos;);&lt;/script&gt;
+
+        </code>
+    </pre>
                 </div>
 
                 <div class="method-card">
-                    <h3 class="method-title">Sanitización personalizada de HTML</h3>
+                    <h3 class="method-title">Sanitización de JSON</h3>
                     <pre class="language-csharp">
                     <code class="language-csharp">
-string html = "&lt;img src='imagen.jpg' onclick='alert()' style='color:red'/&gt;";
-string safeHtml = EntradaDatosSanitizacion.CustomizeSanitizer(html);
-// Resultado: &lt;img src="imagen.jpg" alt="" /&gt; (eliminados atributos no permitidos)
-                        </code>
-                    </pre>
-                </div>
+string jsonInput = "{\"name\":\"&lt;script>alert('XSS');</&lt;script>\",\"age\":30}";
+string sanitizedJson = EntradaDatosSanitizacion.SanitizeJson(jsonInput);
+// Resultado: {"name":"&lt;script&gt;alert('XSS');&lt;/script&gt;","age":30}
 
+        </code>
+    </pre>
+                </div>
 
 
 
             </section>
-            <ul>
-                <li>Método para sanitizar entrada XML</li>
-                <li> Método para sanitizar JSON</li>
-                <li>Método privado para sanitizar tokens JSON</li>
-            </ul>
+        
 
             <section id="inyeccion">
                 <h2>2. Prevención de Inyecciones</h2>
@@ -170,6 +196,29 @@ string safeSql = EntradaDatosInyeccion.SanitizeSql(sqlInput);
 // Resultado: "''"
                     </code></pre>
                 </div>
+
+                 <div class="method-card">
+                        <h3 class="method-title">Prevención de Command Injection</h3>
+                        <pre class="language-csharp">
+                        <code class="language-csharp">
+string cmdInput = "ls & rm -rf /";
+string safeCmd = EntradaDatosInyeccion.SanitizarComando(cmdInput);
+// Resultado: "ls  rm rf " (eliminados caracteres peligrosos)
+                        </code>
+                    </pre>
+                    </div>
+
+                <div class="method-card">
+                    <h3 class="method-title">Prevención de LDAP Injection</h3>
+                    <pre class="language-csharp">
+                    <code class="language-csharp">
+string ldapInput = "cn=*)(|(password=*)";
+string safeLdap = EntradaDatosInyeccion.SanitizarLdap(ldapInput);
+// Resultado: "cn)(password" (eliminados caracteres especiales LDAP)
+                        </code>
+                    </pre>
+                </div>
+
             </section>
 
             <section id="validacion">

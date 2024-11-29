@@ -37,5 +37,9 @@ namespace GuiaUsoLibreria.Controllers
         {
             return View();
         }
+        public IActionResult EntradaDatos()
+        {
+            return View();
+        }
     }
 }
