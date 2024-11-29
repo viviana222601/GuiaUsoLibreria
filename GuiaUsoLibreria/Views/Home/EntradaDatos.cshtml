@@ -157,8 +157,6 @@ string safeHtml = EntradaDatosSanitizacion.CustomizeSanitizer(html);
                     <code class="language-csharp">
 string xmlInput = "&lt;script>alert('XSS Attack!');</script>";
 string salidaSanitizadaXml = EntradaDatosSanitizacion.SanitizarXml(xmlInput);
-// Resultado: 	&lt;script&gt;alert(&apos;XSS Attack!&apos;);&lt;/script&gt;
-
         </code>
     </pre>
                 </div>
@@ -169,8 +167,6 @@ string salidaSanitizadaXml = EntradaDatosSanitizacion.SanitizarXml(xmlInput);
                     <code class="language-csharp">
 string jsonInput = "{\"name\":\"&lt;script>alert('XSS');</&lt;script>\",\"age\":30}";
 string sanitizedJson = EntradaDatosSanitizacion.SanitizeJson(jsonInput);
-// Resultado: {"name":"&lt;script&gt;alert('XSS');&lt;/script&gt;","age":30}
-
         </code>
     </pre>
                 </div>
@@ -249,7 +245,18 @@ var resultadoEdad = validadorEdad.Validate(25);
 // Mostrar resultados
 string mensajeNombre = EntradaDatosValidacion.MostrarResultado(resultadoNombre, "Juan Pérez");
 string mensajeEdad = EntradaDatosValidacion.MostrarResultado(resultadoEdad, "25");</code></pre>
+                    <ul>
+                        <li>ValidadorCorreoElectronicoPersona </li>
+                        <li>ValidadorSalarioPersona</li>
+                        <li>ValidadorFechaCumpleaniosPersona</li>
+                        <li>ValidadorTelefonoPersona </li>
+                        <li>ValidadorGeneroPersona</li>
+                        <li>ValidadorEstadoCivilPersona</li>
+                        <li>ValidadorNumeroIdentificacionPersona </li>
+                        <li>ValidadorNacionalidadPersona</li>
+                     
 
+                    </ul>
                     <div class="method-card">
                         <h3 class="method-title">Validadores Genéricos</h3>
                         <pre class="language-csharp"><code>
@@ -264,6 +271,7 @@ bool decimalValido = ValidadorNumeroDecimal.EsNumeroDecimalValido(25.5m, 0m, 100
 bool alfanumericoValido = ValidadorAlfanumerico.EsAlfanumericoValido("ABC123", 10);
 </code></pre>
                     </div>
+                 
             </section>
 
             <section id="practicas">
