@@ -1,6 +1,5 @@
-﻿@{
-    ViewData["Title"] = "Entrada de Datos";
-}
+﻿
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -133,7 +132,27 @@ string safeUrl = EntradaDatosSanitizacion.SanitizarUrl(url);
 // Resultado: http%3A%2F%2Fmalicioso.com%3Fparam%3D%3Cscript%3E
                     </code></pre>
                 </div>
+
+                <div class="method-card">
+                    <h3 class="method-title">Sanitización personalizada de HTML</h3>
+                    <pre class="language-csharp">
+                    <code class="language-csharp">
+string html = "&lt;img src='imagen.jpg' onclick='alert()' style='color:red'/&gt;";
+string safeHtml = EntradaDatosSanitizacion.CustomizeSanitizer(html);
+// Resultado: &lt;img src="imagen.jpg" alt="" /&gt; (eliminados atributos no permitidos)
+                        </code>
+                    </pre>
+                </div>
+
+
+
+
             </section>
+            <ul>
+                <li>Método para sanitizar entrada XML</li>
+                <li> Método para sanitizar JSON</li>
+                <li>Método privado para sanitizar tokens JSON</li>
+            </ul>
 
             <section id="inyeccion">
                 <h2>2. Prevención de Inyecciones</h2>
