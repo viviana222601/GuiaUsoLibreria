@@ -1,6 +1,5 @@
-﻿@{
-    ViewData["Title"] = "Entrada de Datos";
-}
+﻿
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -124,7 +123,10 @@ string input = "&lt;script&gt;alert('hola')&lt;/script&gt;";
 string sanitized = EntradaDatosSanitizacion.SanitizarHtmlYJavaScript(input);
 // Resultado: "alerthola"
                     </code></pre>
+                    
+
                 </div>
+                <br />
                 <div class="method-card">
                     <div class="code-title">Sanitización de URL:</div>
                     <pre><code class="language-csharp">
@@ -132,8 +134,47 @@ string url = "http://malicioso.com?param=&lt;script&gt;";
 string safeUrl = EntradaDatosSanitizacion.SanitizarUrl(url);
 // Resultado: http%3A%2F%2Fmalicioso.com%3Fparam%3D%3Cscript%3E
                     </code></pre>
+
                 </div>
+
+              
+
+
+<div class="method-card">
+    <h3 class="method-title">Sanitización personalizada de HTML</h3>
+    <pre class="language-csharp">
+        <code class="language-csharp">
+string html = "&lt;img src='imagen.jpg' onclick='alert()' style='color:red'/>";
+string safeHtml = EntradaDatosSanitizacion.CustomizeSanitizer(html);
+// Resultado: &lt;img src="imagen.jpg" alt="" />
+        </code>
+    </pre>
+                    
+</div>
+                <div class="method-card">
+                    <h3 class="method-title">Sanitización de XML</h3>
+                    <pre class="language-csharp">
+                    <code class="language-csharp">
+string xmlInput = "&lt;script>alert('XSS Attack!');</script>";
+string salidaSanitizadaXml = EntradaDatosSanitizacion.SanitizarXml(xmlInput);
+        </code>
+    </pre>
+                </div>
+
+                <div class="method-card">
+                    <h3 class="method-title">Sanitización de JSON</h3>
+                    <pre class="language-csharp">
+                    <code class="language-csharp">
+string jsonInput = "{\"name\":\"&lt;script>alert('XSS');</&lt;script>\",\"age\":30}";
+string sanitizedJson = EntradaDatosSanitizacion.SanitizeJson(jsonInput);
+        </code>
+    </pre>
+                </div>
+
+
+
             </section>
+        
 
             <section id="inyeccion">
                 <h2>2. Prevención de Inyecciones</h2>
@@ -151,6 +192,29 @@ string safeSql = EntradaDatosInyeccion.SanitizeSql(sqlInput);
 // Resultado: "''"
                     </code></pre>
                 </div>
+
+                 <div class="method-card">
+                        <h3 class="method-title">Prevención de Command Injection</h3>
+                        <pre class="language-csharp">
+                        <code class="language-csharp">
+string cmdInput = "ls & rm -rf /";
+string safeCmd = EntradaDatosInyeccion.SanitizarComando(cmdInput);
+// Resultado: "ls  rm rf " (eliminados caracteres peligrosos)
+                        </code>
+                    </pre>
+                    </div>
+
+                <div class="method-card">
+                    <h3 class="method-title">Prevención de LDAP Injection</h3>
+                    <pre class="language-csharp">
+                    <code class="language-csharp">
+string ldapInput = "cn=*)(|(password=*)";
+string safeLdap = EntradaDatosInyeccion.SanitizarLdap(ldapInput);
+// Resultado: "cn)(password" (eliminados caracteres especiales LDAP)
+                        </code>
+                    </pre>
+                </div>
+
             </section>
 
             <section id="validacion">
@@ -181,7 +245,18 @@ var resultadoEdad = validadorEdad.Validate(25);
 // Mostrar resultados
 string mensajeNombre = EntradaDatosValidacion.MostrarResultado(resultadoNombre, "Juan Pérez");
 string mensajeEdad = EntradaDatosValidacion.MostrarResultado(resultadoEdad, "25");</code></pre>
+                    <ul>
+                        <li>ValidadorCorreoElectronicoPersona </li>
+                        <li>ValidadorSalarioPersona</li>
+                        <li>ValidadorFechaCumpleaniosPersona</li>
+                        <li>ValidadorTelefonoPersona </li>
+                        <li>ValidadorGeneroPersona</li>
+                        <li>ValidadorEstadoCivilPersona</li>
+                        <li>ValidadorNumeroIdentificacionPersona </li>
+                        <li>ValidadorNacionalidadPersona</li>
+                     
 
+                    </ul>
                     <div class="method-card">
                         <h3 class="method-title">Validadores Genéricos</h3>
                         <pre class="language-csharp"><code>
@@ -196,6 +271,7 @@ bool decimalValido = ValidadorNumeroDecimal.EsNumeroDecimalValido(25.5m, 0m, 100
 bool alfanumericoValido = ValidadorAlfanumerico.EsAlfanumericoValido("ABC123", 10);
 </code></pre>
                     </div>
+                 
             </section>
 
             <section id="practicas">
