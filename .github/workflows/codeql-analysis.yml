@@ -8,7 +8,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * 0' # Semanal
+    - cron: '0 0 * * 0' # Ejecución semanal (opcional)
 jobs:
   analyze:
     name: Analyze
@@ -19,6 +19,6 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          languages: 'csharp' # Cambia esto según el lenguaje de tu proyecto
+          languages: 'csharp' # Cambia el lenguaje si no es C#
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
