@@ -26,7 +26,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x' # Asegúrate de usar la versión correcta
+          dotnet-version: '8.0.x' # Ajusta la versión según la que uses en tu proyecto
 
       - name: Verify .NET Version
         run: dotnet --list-sdks
@@ -42,6 +42,12 @@ jobs:
 
       - name: Set BUILD_PATH variable
         run: echo "CODEQL_EXTRACTOR_CSHARP_BUILD_MODE=manual" >> $GITHUB_ENV
+
+      - name: Force CodeQL to recognize the build
+        run: |
+          export CODEQL_EXTRACTOR_CSHARP_TRACING=1
+          export CODEQL_EXTRACTOR_CSHARP_BUILD_MODE=manual
+          dotnet build GuiaUsoLibreria.sln --configuration Release
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
