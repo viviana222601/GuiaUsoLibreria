@@ -26,28 +26,26 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x' # Cambia según la versión de .NET de tu proyecto
+          dotnet-version: '8.0.x' # Ajusta según la versión de .NET de tu proyecto
 
       - name: Verify .NET Version
         run: dotnet --list-sdks
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore GuiaUsoLibreria/GuiaUsoLibreria.sln
 
-      - name: Compile Project (dotnet publish)
-        run: dotnet publish -c Release --output ./build
+      - name: Compile Project
+        run: dotnet build GuiaUsoLibreria/GuiaUsoLibreria.sln --configuration Release
 
-      - name: Debug Environment
-        run: ls -R && dotnet --info
+      - name: List compiled files
+        run: ls -R GuiaUsoLibreria/GuiaUsoLibreria/bin/Release
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: 'csharp'
           build-mode: "manual"
-
-      - name: List files for debugging
-        run: ls -R ./build
+          working-directory: 'GuiaUsoLibreria'
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
