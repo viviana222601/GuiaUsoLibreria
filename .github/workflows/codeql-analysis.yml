@@ -20,5 +20,6 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: 'csharp' # Cambia el lenguaje si no es C#
+          working-directory: 'GuiaUsoLibreria'
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
