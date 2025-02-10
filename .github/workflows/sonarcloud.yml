@@ -19,54 +19,6 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
-      - name: 🔍 Debug - Print Default Java Version
-        run: |
-          echo "🔍 Default JAVA_HOME: $JAVA_HOME"
-          java -version || echo "❌ Java no encontrado"
-
-      - name: 🚀 Install Java 21 (Temurin)
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: ✅ Verify Installed Java Version
-        run: |
-          echo "🔍 JAVA_HOME después de la instalación: $JAVA_HOME"
-          java -version
-
-      - name: 🔥 Set JAVA_HOME to Java 21
-        run: |
-          echo "🔧 Configurando JAVA_HOME..."
-          echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))" >> $GITHUB_ENV
-          export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
-          echo "✅ JAVA_HOME configurado correctamente"
-
-      - name: 🚀 Verify JAVA_HOME Again
-        run: |
-          echo "🔍 JAVA_HOME Final: $JAVA_HOME"
-          java -version
-
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: 📥 Install SonarCloud Scanner
-        run: |
-          mkdir -p ~/.sonar/scanner
-          curl -sSLo ~/.sonar/scanner/sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-          unzip ~/.sonar/scanner/sonar-scanner-cli.zip -d ~/.sonar/scanner
-          echo "$HOME/.sonar/scanner/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH
-          echo "✅ SonarCloud Scanner instalado"
-
-      - name: 🔍 Verify SonarScanner Java Version
-        run: |
-          echo "🔍 SonarScanner Java Version:"
-          ~/.sonar/scanner/sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner -version || echo "❌ SonarScanner no encontrado"
-
       - name: 🚀 Run SonarCloud Analysis
         run: |
           echo "🔧 Usando JAVA_HOME: $JAVA_HOME"
@@ -75,5 +27,4 @@ jobs:
             -Dsonar.projectKey=viviana222601_GuiaUsoLibreria \
             -Dsonar.organization=viviana222601 \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-
+            -Dsonar.token=${ secrets.SONAR_TOKEN }
