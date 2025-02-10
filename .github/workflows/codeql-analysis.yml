@@ -39,7 +39,7 @@ jobs:
         with:
           languages: 'csharp'
       
-       - name: Debug Environment
+      - name: Debug Environment
         run: ls -R && dotnet --info
 
       - name: List files for debugging
