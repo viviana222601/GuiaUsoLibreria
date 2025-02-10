@@ -26,7 +26,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x' # Ajusta según la versión de .NET de tu proyecto
+          dotnet-version: '8.0.x' # Asegúrate de usar la versión correcta
 
       - name: Verify .NET Version
         run: dotnet --list-sdks
@@ -38,14 +38,17 @@ jobs:
         run: dotnet build GuiaUsoLibreria.sln --configuration Release
 
       - name: List compiled files
-        run: ls -R GuiaUsoLibreria/bin/Release
+        run: ls -R GuiaUsoLibreria/bin/Release/net8.0
+
+      - name: Set BUILD_PATH variable
+        run: echo "CODEQL_EXTRACTOR_CSHARP_BUILD_MODE=manual" >> $GITHUB_ENV
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: 'csharp'
           build-mode: "manual"
-          working-directory: 'GuiaUsoLibreria'
+          source-root: 'GuiaUsoLibreria'
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
