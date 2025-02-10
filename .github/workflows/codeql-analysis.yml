@@ -1,1 +1,24 @@
-DQpuYW1lOiBDb2RlUUwNCm9uOg0KICBwdXNoOg0KICAgIGJyYW5jaGVzOg0KICAgICAgLSBtYWluDQogIHB1bGxfcmVxdWVzdDoNCiAgICBicmFuY2hlczoNCiAgICAgIC0gbWFpbg0KICBzY2hlZHVsZToNCiAgICAtIGNyb246ICcwIDAgKiAqIDAnICMgU2VtYW5hbA0Kam9iczoNCiAgYW5hbHl6ZToNCiAgICBuYW1lOiBBbmFseXplDQogICAgcnVucy1vbjogdWJ1bnR1LWxhdGVzdA0KICAgIHN0ZXBzOg0KICAgICAgLSBuYW1lOiBDaGVja291dCByZXBvc2l0b3J5DQogICAgICAgIHVzZXM6IGFjdGlvbnMvY2hlY2tvdXRAdjMNCiAgICAgIC0gbmFtZTogSW5pdGlhbGl6ZSBDb2RlUUwNCiAgICAgICAgdXNlczogZ2l0aHViL2NvZGVxbC1hY3Rpb24vaW5pdEB2Mg0KICAgICAgICB3aXRoOg0KICAgICAgICAgIGxhbmd1YWdlczogJ2NzaGFycCcgIyBDYW1iaWEgZXN0byBzZWfDum4gZWwgbGVuZ3VhamUgZGUgdHUgcHJveWVjdG8NCiAgICAgIC0gbmFtZTogUGVyZm9ybSBDb2RlUUwgQW5hbHlzaXMNCiAgICAgICAgdXNlczogZ2l0aHViL2NvZGVxbC1hY3Rpb24vYW5hbHl6ZUB2Mg0K
+
+name: CodeQL
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 0' # Semanal
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'csharp' # Cambia esto según el lenguaje de tu proyecto
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
