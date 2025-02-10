@@ -38,12 +38,16 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: 'csharp'
-          
+      
+       - name: Debug Environment
+        run: ls -R && dotnet --info
+
+      - name: List files for debugging
+        run: ls -R
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
-      - name: Debug Environment
-        run: ls -R && dotnet --info
+     
 
 
