@@ -43,6 +43,15 @@ jobs:
       - name: Set BUILD_PATH variable
         run: echo "CODEQL_EXTRACTOR_CSHARP_BUILD_MODE=manual" >> $GITHUB_ENV
 
+      - name: Manually specify build command for CodeQL
+        run: |
+          codeql database create \
+            --language=csharp \
+            --source-root=GuiaUsoLibreria \
+            --overwrite \
+            --command="dotnet build GuiaUsoLibreria.sln --configuration Release" \
+            codeql-database
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
@@ -52,4 +61,6 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          database: codeql-database
 
