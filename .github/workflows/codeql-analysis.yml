@@ -28,26 +28,27 @@ jobs:
         with:
           dotnet-version: '8.0.x' # Cambia según la versión de .NET de tu proyecto
 
+      - name: Verify .NET Version
+        run: dotnet --list-sdks
+
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build project
-        run: dotnet build --no-restore
+      - name: Compile Project (dotnet publish)
+        run: dotnet publish -c Release --output ./build
+
+      - name: Debug Environment
+        run: ls -R && dotnet --info
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: 'csharp'
-      
-      - name: Debug Environment
-        run: ls -R && dotnet --info
+          build-mode: "manual"
 
       - name: List files for debugging
-        run: ls -R
+        run: ls -R ./build
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
-
-     
-
 
