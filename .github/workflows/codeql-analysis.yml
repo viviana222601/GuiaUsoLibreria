@@ -32,13 +32,13 @@ jobs:
         run: dotnet --list-sdks
 
       - name: Restore dependencies
-        run: dotnet restore GuiaUsoLibreria/GuiaUsoLibreria.sln
+        run: dotnet restore GuiaUsoLibreria.sln
 
       - name: Compile Project
-        run: dotnet build GuiaUsoLibreria/GuiaUsoLibreria.sln --configuration Release
+        run: dotnet build GuiaUsoLibreria.sln --configuration Release
 
       - name: List compiled files
-        run: ls -R GuiaUsoLibreria/GuiaUsoLibreria/bin/Release
+        run: ls -R GuiaUsoLibreria/bin/Release
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
