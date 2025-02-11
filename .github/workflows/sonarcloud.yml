@@ -51,8 +51,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
-          key: ${ runner.os }-sonar
-          restore-keys: ${ runner.os }-sonar
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
 
       - name: 📥 Install SonarCloud Scanner
         run: |
@@ -72,8 +72,8 @@ jobs:
           echo "🔧 Usando JAVA_HOME: $JAVA_HOME"
           export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
           sonar-scanner \
-            -Dsonar.projectKey=viviana222601_GuiaUsoLibreria \
-            -Dsonar.organization=viviana222601 \
+            -Dsonar.projectKey=${llaveProyecto} \
+            -Dsonar.organization=${organizacion} \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.token=${ secrets.SONAR_TOKEN }
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
