@@ -1,0 +1,124 @@
+﻿<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+
+    h2 {
+        color: #333;
+        margin-top: 20px;
+    }
+
+    ul {
+        margin: 10px 0 10px 20px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .tag {
+        background-color: #f3f4f6;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        display: inline-block;
+    }
+</style>
+<!-- Contenido principal -->
+<div class="main-content">
+    <h1>Automatización del Versionamiento y Análisis de Vulnerabilidades en Proyectos .NET</h1>
+    <p>Esta sección describe cómo utilizar una librería especializada para automatizar la verificación de versiones y la detección de vulnerabilidades en proyectos .NET. A través de flujos de trabajo con GitHub Actions, se configuran análisis automáticos con CodeQL y SonarQube, lo que permite mantener el código actualizado, seguro y de alta calidad sin configuraciones complejas.</p>
+
+    <section id="caso1">
+    <h2>Implementación del Análisis de Versionamiento y Vulnerabilidades</h2>
+
+    <p>Esta funcionalidad automatiza la verificación de versiones y la seguridad del código fuente durante el proceso de despliegue. A continuación, se muestra un ejemplo claro y ordenado para desarrolladores que deseen integrarlo fácilmente con <span class="tag">GitHub Actions</span>.</p>
+
+    <h3>Análisis de Versionamiento</h3>
+    <ol>
+        <li>
+            La librería analiza los paquetes <span class="tag">NuGet</span> y la versión de <span class="tag">.NET</span> utilizada en el proyecto, comparándolos con las versiones más recientes disponibles.
+        </li>
+        <li>
+            Si se detecta una versión desactualizada, se genera automáticamente un <span class="tag">issue</span> en el repositorio del desarrollador en <span class="tag">GitHub</span>, notificando sobre la actualización necesaria.
+        </li>
+    </ol>
+
+    <h3>Análisis de Vulnerabilidades en GitHub Actions</h3>
+    <p>La librería permite automatizar la ejecución de análisis de seguridad en cada <span class="tag">pull request</span> usando herramientas como <span class="tag">CodeQL</span> o <span class="tag">SonarQube</span>.</p>
+
+    <h4>Uso de CodeQL</h4>
+<ol>
+    <li>Llama al método <span class="tag">CrearActionGitHub</span> una sola vez desde tu proyecto, pasando el Access Token, usuario, repositorio y rama.</li>
+    <li>Esto genera automáticamente un flujo de trabajo en <span class="tag">GitHub Actions</span> para analizar el código con <span class="tag">CodeQL</span> en cada pull.</li>
+    <li>Verifica los análisis en la pestaña <span class="tag">Actions</span> de tu repositorio.</li>
+    <li>Si el repositorio es gratuito, debe estar en modo público para que el análisis se ejecute correctamente.</li>
+</ol>
+
+<p>A continuación, se deja un fragmento de código de ejemplo para utilizar el método <span class="tag">CrearActionGitHub</span>:</p>
+
+<pre><code class="language-csharp">
+using DSLibreria;
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        string token = "token_generado_github";
+        string usuario = "usuariogithub";
+        string repositorio = "nombre_repositorio";
+        string rama = "rama_repositorio";
+
+        Versionamiento.CrearActionGitHub(token, usuario, repositorio, rama).GetAwaiter().GetResult();
+    }
+}
+</code></pre>
+
+<h4>Uso de SonarQube</h4>
+<ol>
+    <li>Invoca el método <span class="tag">CrearActionGitHubSonar</span> y proporciona los datos de GitHub, así como el <span class="tag">token</span> y <span class="tag">projectKey</span> obtenidos desde <a href="https://sonarcloud.io" target="_blank">SonarCloud</a>.</li>
+    <li>Crea tu proyecto en SonarCloud y obtén el token desde la sección “Mi cuenta”.</li>
+    <li>Configura tu repositorio como público para que pueda ser reconocido.</li>
+    <li>Desactiva la ejecución automática del análisis desde la sección <span class="tag">Administración</span> → <span class="tag">Análisis de Método</span>.</li>
+    <li>Después de hacer un pull, SonarQube mostrará los resultados organizados por tipo de vulnerabilidad.</li>
+</ol>
+
+<p>Y este es un ejemplo de implementación del método <span class="tag">CrearActionGitHubSonar</span>:</p>
+
+<pre><code class="language-csharp">
+using DSLibreria;
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        string token = "token_generado_github";
+        string usuario = "usuariogithub";
+        string repositorio = "nombre_repositorio";
+        string rama = "rama_repositorio";
+        string llave = "llave_proyecto_sonar";
+        string organizacion = "organizacion_sonar";
+
+        Versionamiento.CrearActionSonar(token, usuario, repositorio, rama, llave, organizacion).GetAwaiter().GetResult();
+
+    }
+}
+</code></pre>
+
+
+    <p>Esta integración permite identificar vulnerabilidades en tiempo real, facilitando la mejora de la seguridad y calidad del código sin procesos manuales.</p>
+</section>
+
+
+</div>

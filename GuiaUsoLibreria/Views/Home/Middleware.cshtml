@@ -1,0 +1,59 @@
+﻿<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+
+    h2 {
+        color: #333;
+        margin-top: 20px;
+    }
+
+    ul {
+        margin: 10px 0 10px 20px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .tag {
+        background-color: #f3f4f6;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        display: inline-block;
+    }
+</style>
+<!-- Contenido principal -->
+<div class="main-content">
+    <h1>Documentación de la funcionalidad para implementar un Middleware de Sanitización</h1>
+    <p>El middleware de sanitización es una capa de seguridad que puedes integrar fácilmente en tu aplicación web .NET, agregándolo en el archivo <span class="tag">Program.cs</span> (el punto de entrada principal de la app).</p>
+
+    <section id="caso1">
+        <p>Una vez activado, este middleware:</p>
+
+        <ul>
+            <li>Escanea los archivos <span class="tag">HTML</span>, <span class="tag">CSS</span> y <span class="tag">JS</span> que se cargan en el navegador, eliminando cualquier fragmento que pueda contener código malicioso.</li>
+            <li>Protege los formularios validando los datos ingresados por los usuarios, evitando ataques como SQL Injection o scripts maliciosos.</li>
+            <li>Limpia los archivos descargables (como plantillas o plugins externos) para asegurarse de que no entreguen contenido comprometido al usuario final.</li>
+        </ul>
+        <p>Esto es especialmente útil si estás usando recursos de terceros (como Bootstrap, jQuery u otras librerías externas), ya que el middleware te ayuda a mantener tu aplicación limpia y segura sin que tengas que revisar todo manualmente.</p>
+
+        <p>A continuación, se muestra un ejemplo de cómo implementar el middleware de sanitización directamente en el archivo <span class="tag">Program.cs</span>, que es el punto de entrada principal de la aplicación. Esta configuración garantiza que el middleware se ejecute con cada solicitud, proporcionando protección continua tanto en la carga de archivos como en la validación de datos ingresados por los usuarios:</p>
+        <pre><code class="language-csharp">
+using DSLibreria;
+
+app.UseMiddleware<HtmlSanitizationMiddleware>();
+app.UseMiddleware<HtmlSanitizationMiddlewareEntrada>();
+
+            </code></pre>
+    </section>
+
+</div>

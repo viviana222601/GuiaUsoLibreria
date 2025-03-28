@@ -41,5 +41,13 @@ namespace GuiaUsoLibreria.Controllers
         {
             return View();
         }
+        public IActionResult Middleware()
+        {
+            return View();
+        }
+        public IActionResult Versionamiento()
+        {
+            return View();
+        }
     }
 }
