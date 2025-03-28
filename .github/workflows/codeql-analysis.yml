@@ -1,0 +1,55 @@
+
+name: CodeQL
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Verify .NET Version
+        run: dotnet --list-sdks
+
+      - name: Restore dependencies
+        run: dotnet restore GuiaUsoLibreria.sln
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: 'csharp'
+          build-mode: "manual"
+          source-root: 'GuiaUsoLibreria'
+
+      - name: Build the project (CodeQL Capturing)
+        run: |
+          export CODEQL_EXTRACTOR_CSHARP_TRACING=1
+          export CODEQL_EXTRACTOR_CSHARP_BUILD_MODE=manual
+          dotnet build GuiaUsoLibreria.sln --configuration Release
+
+      - name: List compiled files
+        run: ls -R GuiaUsoLibreria/bin/Release/net8.0
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
