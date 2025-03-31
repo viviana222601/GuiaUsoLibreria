@@ -1,4 +1,33 @@
-﻿ <!-- Contenido principal -->
+﻿<style>
+    .descarga-container {
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #f0f9ff;
+        border: 1px solid #90cdf4;
+        border-radius: 8px;
+    }
+
+    .descarga-texto {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .descarga-btn {
+        background-color: #3182ce;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+    }
+
+    .descarga-btn:hover {
+        background-color: #2b6cb0;
+    }
+</style>
+ <!-- Contenido principal -->
 <div class="main-content">
     <h1>Documentación de la Librería</h1>
     <p>Esta guía detalla cómo integrar y utilizar la librería para abordar casos de uso específicos relacionados con la gestión de vulnerabilidades en el desarrollo de software, enfocándose particularmente en la etapa de construcción.</p>
@@ -28,7 +57,10 @@
                 <li>Selecciona la DLL y haz clic en Aceptar.</li>
             </ul>
         </p>
-        
+        <div class="descarga-container">
+            <p class="descarga-texto">Haz clic en el siguiente botón para descargar la DLL necesaria e integrarla en tu proyecto:</p>
+            <a href="~/dlldescarga/DSLibreria.dll" download class="descarga-btn">📦 Descargar DLL</a>
+        </div>
     </section>
    
 </div>

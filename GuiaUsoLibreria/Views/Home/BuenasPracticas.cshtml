@@ -1,0 +1,159 @@
+﻿<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+
+    h2 {
+        color: #333;
+        margin-top: 20px;
+    }
+
+    ul {
+        margin: 10px 0 10px 20px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .tag {
+        background-color: #f3f4f6;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        display: inline-block;
+    }
+</style>
+<div class="main-content">
+<section id="buenas-practicas">
+    <h2>Buenas prácticas de seguridad en aplicaciones .NET 8.0</h2>
+    <p>Estas prácticas te ayudan a que tu aplicación sea más segura y esté protegida frente a ataques comunes. La mayoría de estas configuraciones se hacen desde el archivo <span class="tag">Program.cs</span>, que es donde comienza tu aplicación.</p>
+
+    <ul>
+        <li>
+            <strong>1. Forzar HTTPS (conexión segura):</strong><br>
+            Es importante que los datos viajen de forma segura. Para eso, puedes obligar a que todas las solicitudes usen HTTPS (en vez de HTTP) agregando esta línea:
+            <pre><code class="language-csharp">
+app.UseHttpsRedirection();
+            </code></pre>
+        </li>
+
+        <li>
+            <strong>2. No mostrar errores técnicos al usuario:</strong><br>
+            Si algo falla en la app, es mejor no mostrar detalles técnicos (como errores internos o rutas del servidor), porque eso puede ser aprovechado por un atacante. En producción, muestra una página de error genérica:
+            <pre><code class="language-csharp">
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+}
+            </code></pre>
+        </li>
+
+        <li>
+            <strong>3. Agregar encabezados de seguridad:</strong><br>
+            Los encabezados son instrucciones que el servidor le da al navegador. Algunos ayudan a proteger tu sitio contra ataques. Puedes agregarlos así:
+            <pre><code class="language-csharp">
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("X-Frame-Options", "DENY");
+    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+    await next();
+});
+            </code></pre>
+        </li>
+
+        <li>
+            <strong>4. Limitar el tamaño de las solicitudes:</strong><br>
+            Esto evita que alguien intente "tirar" tu aplicación enviando datos enormes. Se configura así:
+            <pre><code class="language-csharp">
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 10 * 1024 * 1024; // 10 MB
+});
+            </code></pre>
+        </li>
+
+        <li>
+            <strong>5. Proteger formularios contra falsificaciones (CSRF):</strong><br>
+            Cuando usas formularios, puedes activar protección automática para asegurarte de que las peticiones vengan de tu propio sitio:
+            <pre><code class="language-csharp">
+services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
+            </code></pre>
+        </li>
+
+        <li>
+            <strong>6. Controlar quién accede a cada parte:</strong><br>
+            Usa <code>[Authorize]</code> para asegurarte de que solo los usuarios correctos puedan ver o usar ciertas partes:
+            <pre><code class="language-csharp">
+[Authorize(Roles = "Admin")]
+public IActionResult PanelAdmin() => View();
+            </code></pre>
+            No olvides agregar los middlewares:
+            <pre><code class="language-csharp">
+app.UseAuthentication();
+app.UseAuthorization();
+            </code></pre>
+        </li>
+
+        <li>
+            <strong>7. No guardes contraseñas o claves en el código:</strong><br>
+            Guarda las conexiones o claves API en <code>appsettings.json</code> y no directamente en el código. Ejemplo:
+            <pre><code class="language-json">
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=...;User Id=...;Password=..."
+  }
+}
+            </code></pre>
+            Luego las usas así:
+            <pre><code class="language-csharp">
+var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+            </code></pre>
+            En producción, es mejor usar servicios como <span class="tag">Azure Key Vault</span> o <span class="tag">Environment Variables</span>.
+        </li>
+
+        <li>
+            <strong>8. Desactiva cosas que no necesitas:</strong><br>
+            Si no usas ciertas funciones como WebSockets, es mejor apagarlas para reducir riesgos:
+            <pre><code class="language-csharp">
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.AllowSynchronousIO = false;
+    options.AddServerHeader = false;
+});
+            </code></pre>
+        </li>
+
+        <li>
+            <strong>9. Solo permite solicitudes desde sitios confiables (CORS):</strong><br>
+            Si tu aplicación web se comunica con otros dominios, debes controlar quién puede hacerlo:
+            <pre><code class="language-csharp">
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MiPoliticaCors", policy =>
+    {
+        policy.WithOrigins("https://misitio.com")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+app.UseCors("MiPoliticaCors");
+            </code></pre>
+        </li>
+    </ul>
+
+    <p>Estas prácticas ayudan a que tu aplicación esté protegida desde el inicio. Al configurarlas en <span class="tag">Program.cs</span>, te aseguras de que se apliquen en todas las solicitudes que entran al servidor.</p>
+</section>
+</div>

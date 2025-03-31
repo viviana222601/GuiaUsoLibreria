@@ -49,5 +49,9 @@ namespace GuiaUsoLibreria.Controllers
         {
             return View();
         }
+        public IActionResult BuenasPracticas()
+        {
+            return View();
+        }
     }
 }
